@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,31 +24,19 @@ namespace uwprek
     /// </summary>
     public sealed partial class MainPage : Page, IReceivingHeader
     {
-        private List<ReceivingHeader> receivingHeaders;
+        private ObservableCollection<ReceivingHeader> receivingHeaderObservable;
         private NetworkTask networkTask;
         public MainPage()
         {
             this.InitializeComponent();
 
             networkTask = new NetworkTask(this);
-
+            receivingHeaderObservable = new ObservableCollection<ReceivingHeader>();
         }
 
         public void OnSuccessReceivingHeaders(List<ReceivingHeader> receivingHeaders)
         {
-            this.receivingHeaders = receivingHeaders;
-
-            foreach (ReceivingHeader rh in this.receivingHeaders)
-            {
-                System.Diagnostics.Debug.WriteLine(rh.ID);
-                System.Diagnostics.Debug.WriteLine(rh.DocDate);
-                System.Diagnostics.Debug.WriteLine(rh.DocNumber);
-                System.Diagnostics.Debug.WriteLine(rh.Notes);
-                System.Diagnostics.Debug.WriteLine(rh.RFID);
-                System.Diagnostics.Debug.WriteLine(rh.Species.ID);
-                System.Diagnostics.Debug.WriteLine(rh.Supplier.ID);
-                System.Diagnostics.Debug.WriteLine("+==========================================+");
-            }
+            receivingHeaders.ForEach(o => receivingHeaderObservable.Add(o));
         }
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
@@ -55,8 +44,11 @@ namespace uwprek
             /*NetworkRequest nw = new NetworkRequest();
             nw.GetReceivingHeaders();*/
             this.networkTask.DownloadReceivingData();
+        }
 
-            
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.networkTask.DownloadReceivingData();
         }
     }
 }

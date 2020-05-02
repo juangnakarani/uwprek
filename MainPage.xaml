@@ -5,11 +5,54 @@
     xmlns:local="using:uwprek"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
     <Grid>
-        <Button x:Name="btnNew" Content="New" Margin="676,374,0,0" VerticalAlignment="Top" Height="58" Width="74" Click="btnNew_Click" RenderTransformOrigin="-8.208,2.797"/>
+        <Button x:Name="btnNew" Content="New" Margin="983,93,0,0" VerticalAlignment="Top" Height="58" Width="74" Click="btnNew_Click" RenderTransformOrigin="-8.208,2.797"/>
+        <controls:DataGrid Name="ReceivingDataGrid" ItemsSource="{x:Bind receivingHeaderObservable,Mode=OneWay}" AutoGenerateColumns="False"
+          AlternatingRowBackground="Azure"
+          AreRowDetailsFrozen="True"
+          Background="White"
+          CanUserReorderColumns="False"
+          CanUserResizeColumns="True"
+          CanUserSortColumns="True"
+          GridLinesVisibility="All"
+          HeadersVisibility="Column"
+          SelectionMode="Single">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="ID"
+                                         Binding="{Binding ID}"
+                                         IsReadOnly="True"/>
+
+                <controls:DataGridTextColumn Header="Doc Number"
+                                         Binding="{Binding DocNumber}"
+                                         IsReadOnly="True"/>
+
+                <controls:DataGridTextColumn Header="Doc Date"
+                                         Binding="{Binding DocDate}"
+                                         IsReadOnly="True"/>
+
+                <controls:DataGridTextColumn Header="Notes"
+                                         Binding="{Binding Notes}"
+                                         IsReadOnly="True"/>
+
+                <controls:DataGridTextColumn Header="Weight"
+                                         Binding="{Binding RFID}"
+                                         IsReadOnly="True"/>
+
+                <controls:DataGridTextColumn Header="Species"
+                                         Binding="{Binding Species}"
+                                         IsReadOnly="True"/>
+
+                <controls:DataGridTextColumn Header="Supplier"
+                                         Binding="{Binding Supplier}"
+                                         IsReadOnly="True"/>
+            </controls:DataGrid.Columns>
+
+        </controls:DataGrid>
 
     </Grid>
 </Page>
